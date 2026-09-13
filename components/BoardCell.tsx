@@ -4,6 +4,7 @@ import type { CSSProperties } from 'react';
 import type { BoardCell as BoardCellData } from '@/types/game';
 import type { ThemeId } from '@/types/game';
 import { getChipPalette } from '@/lib/themes/chipColors';
+import { isWordy, hueCardStyle, SPACE_TEXT_SHADOW } from '@/lib/themes/cardStyle';
 
 interface BoardCellProps {
   cell: BoardCellData;
@@ -15,10 +16,6 @@ interface BoardCellProps {
   dimmed: boolean;
   onClick: () => void;
 }
-
-// Emoji-only text (no letters) reads fine large; word-based themes need a
-// smaller size so words like "Jackhammer" fit the cell.
-const isWordy = (text: string) => /[a-zA-Z]/.test(text);
 
 export default function BoardCell({ cell, display, hue, themeId, clickable, highlighted, dimmed, onClick }: BoardCellProps) {
   const isSequenced = cell.sequenceIds.length > 0;
@@ -40,11 +37,7 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
   } else if (hasHue) {
     bgClass = '';
     textClass = '';
-    style = {
-      backgroundColor: `hsl(${hue} 65% 90%)`,
-      borderColor: `hsl(${hue} 55% 60%)`,
-      color: `hsl(${hue} 70% 28%)`,
-    };
+    style = hueCardStyle(hue);
   }
 
   const chipPalette = cell.chip ? getChipPalette(cell.chip, themeId) : null;
@@ -67,7 +60,7 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
       ) : (
         <span
           className={`${textSizeClass} ${textClass} leading-tight px-1 break-words line-clamp-3 font-semibold`}
-          style={isSpace ? { textShadow: '0 1px 3px rgba(0,0,0,0.8)' } : undefined}
+          style={isSpace ? SPACE_TEXT_SHADOW : undefined}
         >
           {display}
         </span>

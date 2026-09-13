@@ -27,7 +27,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const body = await request.json();
     const { playerId, cardId, targetCellIndex } = body;
 
-    if (!playerId || !cardId || typeof targetCellIndex !== 'number') {
+    if (typeof playerId !== 'string' || !playerId || typeof cardId !== 'string' || !cardId || typeof targetCellIndex !== 'number') {
       return NextResponse.json(
         { error: 'playerId, cardId, and targetCellIndex are required' },
         { status: 400 }

@@ -7,7 +7,9 @@ creation. Real-time online multiplayer for 2-3 players — join by room code.
 ## How to play
 
 - Play a matching card from your hand onto the board to place your colored chip (red / blue /
-  green). Form a line of 5 chips — row, column, or diagonal — to complete a sequence.
+  green — the Space theme displays these as red / yellow / light green for visibility against
+  its dark background). Form a line of 5 chips — row, column, or diagonal — to complete a
+  sequence.
 - **2 players:** 7-card hand, first to complete **2 sequences** wins.
 - **3 players:** 6-card hand, first to complete **1 sequence** wins.
 - The 4 board corners are free spaces, already "filled" for everyone.

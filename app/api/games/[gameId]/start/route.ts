@@ -17,7 +17,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const body = await request.json();
     const { playerId } = body;
 
-    if (!playerId) {
+    if (typeof playerId !== 'string' || !playerId) {
       return NextResponse.json({ error: 'playerId is required' }, { status: 400 });
     }
 

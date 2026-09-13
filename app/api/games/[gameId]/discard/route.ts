@@ -19,7 +19,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const body = await request.json();
     const { playerId, cardId } = body;
 
-    if (!playerId || !cardId) {
+    if (typeof playerId !== 'string' || !playerId || typeof cardId !== 'string' || !cardId) {
       return NextResponse.json({ error: 'playerId and cardId are required' }, { status: 400 });
     }
 

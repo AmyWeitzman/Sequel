@@ -10,8 +10,11 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const body = await request.json();
     const { playerName, playerId } = body;
 
-    if (!playerName) {
+    if (typeof playerName !== 'string' || !playerName) {
       return NextResponse.json({ error: 'playerName is required' }, { status: 400 });
+    }
+    if (playerId !== undefined && typeof playerId !== 'string') {
+      return NextResponse.json({ error: 'playerId must be a string' }, { status: 400 });
     }
 
     const gameRef = adminDb.collection('games').doc(gameId);

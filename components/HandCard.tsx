@@ -3,6 +3,7 @@
 import type { CSSProperties } from 'react';
 import type { HandCard as HandCardData } from '@/types/game';
 import type { ThemeDefinition } from '@/lib/themes';
+import { isWordy, hueCardStyle, hueLabelColor, SPACE_TEXT_SHADOW } from '@/lib/themes/cardStyle';
 
 export function getCardDisplay(
   card: HandCardData,
@@ -29,10 +30,6 @@ interface HandCardProps {
   onDiscard: () => void;
 }
 
-// Emoji-only text (no letters) reads fine large; word-based themes need a
-// smaller size so words like "Jackhammer" or "Meteor Shower" fit the card.
-const isWordy = (text: string) => /[a-zA-Z]/.test(text);
-
 export default function HandCard({ card, theme, selected, dead, disabled, onSelect, onDiscard }: HandCardProps) {
   const { primary, label, hue, emoji } = getCardDisplay(card, theme);
   const isWild = card.kind !== 'normal';
@@ -47,11 +44,7 @@ export default function HandCard({ card, theme, selected, dead, disabled, onSele
     labelClass = 'text-indigo-100';
   } else if (hue !== undefined) {
     variantClass = '';
-    style = {
-      backgroundColor: `hsl(${hue} 65% 90%)`,
-      borderColor: `hsl(${hue} 55% 60%)`,
-      color: `hsl(${hue} 70% 28%)`,
-    };
+    style = hueCardStyle(hue);
     labelClass = '';
   } else if (isWild) {
     variantClass = 'border-violet-300 bg-violet-50 hover:border-violet-400';
@@ -71,20 +64,20 @@ export default function HandCard({ card, theme, selected, dead, disabled, onSele
         } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${dead ? 'ring-2 ring-red-300' : ''}`}
       >
         {emoji && (
-          <span className="text-3xl leading-none mb-1" style={isSpace ? { textShadow: '0 1px 3px rgba(0,0,0,0.8)' } : undefined}>
+          <span className="text-3xl leading-none mb-1" style={isSpace ? SPACE_TEXT_SHADOW : undefined}>
             {emoji}
           </span>
         )}
         <span
           className={`${primarySizeClass} leading-tight mb-1 break-words line-clamp-2`}
-          style={isSpace ? { textShadow: '0 1px 3px rgba(0,0,0,0.8)' } : undefined}
+          style={isSpace ? SPACE_TEXT_SHADOW : undefined}
         >
           {primary}
         </span>
         {label && (
           <span
             className={`text-[11px] leading-tight break-words line-clamp-2 ${labelClass}`}
-            style={hue !== undefined ? { color: `hsl(${hue} 40% 35%)` } : isSpace ? { textShadow: '0 1px 3px rgba(0,0,0,0.8)' } : undefined}
+            style={hue !== undefined ? hueLabelColor(hue) : isSpace ? SPACE_TEXT_SHADOW : undefined}
           >
             {label}
           </span>

@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { hostId, hostName, theme } = body;
 
-    if (!hostId || !hostName) {
+    if (typeof hostId !== 'string' || !hostId || typeof hostName !== 'string' || !hostName) {
       return NextResponse.json({ error: 'hostId and hostName are required' }, { status: 400 });
     }
 
