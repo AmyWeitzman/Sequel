@@ -67,7 +67,7 @@ export default function HandCard({ card, theme, selected, dead, disabled, onSele
         disabled={disabled}
         style={style}
         className={`w-24 h-28 rounded-xl border-2 flex flex-col items-center justify-center px-1.5 py-1 text-center transition-all shrink-0 ${variantClass} ${
-          selected ? 'shadow-lg -translate-y-2 ring-2 ring-indigo-500' : ''
+          selected ? 'match-glow z-10' : ''
         } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${dead ? 'ring-2 ring-red-300' : ''}`}
       >
         {emoji && (

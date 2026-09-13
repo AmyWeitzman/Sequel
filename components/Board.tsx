@@ -9,10 +9,11 @@ interface BoardProps {
   board: BoardCellData[];
   theme: ThemeDefinition;
   legalCells: Set<number>;
+  armed: boolean;
   onCellClick: (index: number) => void;
 }
 
-export default function Board({ board, theme, legalCells, onCellClick }: BoardProps) {
+export default function Board({ board, theme, legalCells, armed, onCellClick }: BoardProps) {
   const itemById = useMemo(() => {
     const map = new Map<string, { display: string; hue?: number }>();
     for (const item of theme.boardItems) {
@@ -26,6 +27,7 @@ export default function Board({ board, theme, legalCells, onCellClick }: BoardPr
       <div className="grid grid-cols-10 gap-1" style={{ width: 'max-content' }}>
         {board.map((cell) => {
           const item = cell.itemId ? itemById.get(cell.itemId) : undefined;
+          const isLegal = legalCells.has(cell.index);
           return (
             <BoardCellView
               key={cell.index}
@@ -33,8 +35,9 @@ export default function Board({ board, theme, legalCells, onCellClick }: BoardPr
               display={item?.display ?? ''}
               hue={item?.hue}
               themeId={theme.id}
-              clickable={legalCells.has(cell.index)}
-              highlighted={legalCells.has(cell.index)}
+              clickable={isLegal}
+              highlighted={isLegal}
+              dimmed={armed && !isLegal}
               onClick={() => onCellClick(cell.index)}
             />
           );

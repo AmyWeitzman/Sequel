@@ -12,6 +12,7 @@ interface BoardCellProps {
   themeId: ThemeId;
   clickable: boolean;
   highlighted: boolean;
+  dimmed: boolean;
   onClick: () => void;
 }
 
@@ -19,7 +20,7 @@ interface BoardCellProps {
 // smaller size so words like "Jackhammer" fit the cell.
 const isWordy = (text: string) => /[a-zA-Z]/.test(text);
 
-export default function BoardCell({ cell, display, hue, themeId, clickable, highlighted, onClick }: BoardCellProps) {
+export default function BoardCell({ cell, display, hue, themeId, clickable, highlighted, dimmed, onClick }: BoardCellProps) {
   const isSequenced = cell.sequenceIds.length > 0;
   const textSizeClass = isWordy(display) ? 'text-xs' : 'text-3xl';
   const isSpace = themeId === 'space' && !cell.isFreeCorner;
@@ -43,10 +44,6 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
     };
   }
 
-  // Indigo reads fine as a "this is a legal move" ring on white/pastel cells,
-  // but disappears against the Space theme's dark blue/purple aurora - use a
-  // bright lime there instead (kept distinct from the gold sequence ring).
-  const highlightRingClass = isSpace ? 'ring-lime-300' : 'ring-indigo-400';
   const chipPalette = cell.chip ? getChipPalette(cell.chip, themeId) : null;
 
   return (
@@ -56,8 +53,8 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
       disabled={!clickable}
       style={style}
       className={`relative h-20 w-20 shrink-0 rounded-md border flex items-center justify-center text-center overflow-hidden transition-all ${bgClass} ${
-        highlighted ? `ring-4 ${highlightRingClass} z-10` : ''
-      } ${isSequenced ? 'ring-2 ring-yellow-400' : ''} ${
+        highlighted ? 'match-glow z-10' : ''
+      } ${isSequenced ? 'ring-2 ring-yellow-400' : ''} ${dimmed ? 'opacity-30' : ''} ${
         clickable ? `cursor-pointer${hasHue || isSpace ? '' : ' hover:border-indigo-400'}` : 'cursor-default'
       }`}
       title={display}

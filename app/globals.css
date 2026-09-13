@@ -99,3 +99,22 @@ h1, h2, h3 {
     radial-gradient(circle at 85% 25%, rgba(168, 85, 247, 0.5), transparent 55%),
     radial-gradient(circle at 50% 95%, rgba(45, 212, 191, 0.45), transparent 60%);
 }
+
+/* Shared "this is a valid match" indicator - a pulsing amber glow, used
+   identically on a legal board cell and on the hand card that's currently
+   armed, so the same visual language points at both ends of the match. A
+   glow reads at a glance across a busy 100-cell board in a way a thin ring
+   didn't; it's bright/warm enough to stay visible on every theme's
+   background (white, pastel, or the Space theme's dark aurora). */
+@keyframes match-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.95), 0 0 18px 6px rgba(251, 191, 36, 0.75);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.6), 0 0 10px 3px rgba(251, 191, 36, 0.4);
+  }
+}
+
+.match-glow {
+  animation: match-glow-pulse 1.3s ease-in-out infinite;
+}

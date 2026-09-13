@@ -95,7 +95,7 @@ export default function GamePlay({ game, currentPlayerId, onPlayCard, onDiscard,
         </aside>
 
         <div className="flex-1 min-w-0 flex justify-center">
-          <Board board={game.board} theme={theme} legalCells={legalCells} onCellClick={handleCellClick} />
+          <Board board={game.board} theme={theme} legalCells={legalCells} armed={armedCard !== null} onCellClick={handleCellClick} />
         </div>
 
         <div className="lg:w-64 shrink-0">
