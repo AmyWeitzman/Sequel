@@ -30,7 +30,10 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
   let bgClass = 'bg-white border-gray-200';
   let textClass = 'text-gray-700';
   if (cell.isFreeCorner) {
-    bgClass = 'bg-amber-200 border-amber-400';
+    // Not amber/yellow - the Space theme's chips render yellow, so a yellow
+    // corner could look like it's already been claimed. Violet isn't used by
+    // any chip color in any theme.
+    bgClass = 'bg-violet-200 border-violet-400';
   } else if (isSpace) {
     bgClass = 'bg-aurora border-indigo-950';
     textClass = 'text-white';
@@ -60,7 +63,7 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
       title={display}
     >
       {cell.isFreeCorner ? (
-        <span className="text-xs font-extrabold tracking-wider text-amber-800">FREE</span>
+        <span className="text-xs font-extrabold tracking-wider text-violet-800">FREE</span>
       ) : (
         <span
           className={`${textSizeClass} ${textClass} leading-tight px-1 break-words line-clamp-3 font-semibold`}
