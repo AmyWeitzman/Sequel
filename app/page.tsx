@@ -104,10 +104,10 @@ export default function Home() {
     <div className="min-h-screen flex-1 bg-gradient-to-br from-indigo-100 via-violet-50 to-indigo-100 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <div className="text-6xl mb-2">🔮</div>
+          <div className="text-6xl mb-2">🔗</div>
           <h1 className="text-5xl font-bold text-gray-900 mb-4 font-display tracking-tight">Sequel</h1>
           <p className="text-xl text-gray-600 mb-4">
-            A themeable spin on Sequence — pick a theme, build sequences of 5, race your friends online.
+            Build sequences of 5 and race your friends online.
           </p>
           <button
             onClick={() => setShowRules(true)}
@@ -166,7 +166,7 @@ export default function Home() {
         isOpen={showNameModal}
         onClose={() => setShowNameModal(false)}
         onSubmit={handleNameSubmit}
-        title="Enter your name to create the game"
+        title="Enter your name"
       />
       <RulesModal isOpen={showRules} onClose={() => setShowRules(false)} />
     </div>

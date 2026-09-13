@@ -273,6 +273,12 @@ describe('isCardDead / discardDeadCard', () => {
     expect(isCardDead(card, board, emojiTheme)).toBe(false);
   });
 
+  it('wild-remove is never dead, even on turn one with no chips on the board yet', () => {
+    const board = makeBoard();
+    const card: HandCard = { cardId: 'c1', itemId: 'wild-remove', kind: 'wild-remove' };
+    expect(isCardDead(card, board, emojiTheme)).toBe(false);
+  });
+
   it('discardDeadCard does not consume the turn (only touches hand/piles)', () => {
     let board = makeBoard();
     const item = emojiTheme.boardItems[0].id;

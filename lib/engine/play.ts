@@ -185,14 +185,19 @@ export function applyPlay(
 }
 
 /** A "normal" card is dead once neither of its matching board items has an
- * open, playable cell left. Wildcards are dead only when there is no legal
- * target left anywhere on the board. */
+ * open, playable cell left — that's permanent, since occupied cells don't
+ * reopen. Wild-place is dead only in the near-impossible case the entire
+ * board is full. Wild-remove is never treated as dead: having no opponent
+ * chip to remove right now (e.g. turn one, before anyone has played) is
+ * temporary, not permanent — opponents will place chips as the game goes on,
+ * so it stays in hand as a normal card you simply can't play yet, exactly
+ * like a real Sequence one-eyed jack. */
 export function isCardDead(card: HandCard, board: BoardCell[], theme: ThemeDefinition): boolean {
   if (card.kind === 'wild-place') {
     return !board.some((cell) => !cell.isFreeCorner && cell.chip === null);
   }
   if (card.kind === 'wild-remove') {
-    return !board.some((cell) => !cell.isFreeCorner && cell.chip !== null && cell.sequenceIds.length === 0);
+    return false;
   }
   const cellView = board.map((cell) => ({
     itemId: cell.itemId,

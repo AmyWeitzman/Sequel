@@ -3,8 +3,8 @@ import { EMOJI_ITEMS } from './data/emojiItems';
 
 export const emojiTheme: ThemeDefinition = {
   id: 'emoji',
-  name: 'Emoji Match',
-  description: 'Classic Sequence with 48 emoji faces — play the matching emoji from your hand.',
+  name: 'Emoji',
+  description: 'A colorful set of everyday emoji.',
   boardItems: EMOJI_ITEMS.map((emoji) => ({
     id: emoji,
     display: { primary: emoji },

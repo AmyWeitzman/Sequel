@@ -25,7 +25,7 @@ export default function RulesModal({ isOpen, onClose }: RulesModalProps) {
           <section>
             <h3 className="font-semibold text-lg mb-1 text-gray-900">🎯 Objective</h3>
             <p>
-              Sequel is a themed take on the board game Sequence. The 10×10 board holds 48
+              Sequel is a digital version of the board game Sequence. The 10×10 board holds 48
               items, each appearing twice, reshuffled into new positions every game. Play a
               matching card from your hand onto the board to place your colored chip, and
               race to form sequences of 5 chips in a row — horizontally, vertically, or
@@ -40,7 +40,8 @@ export default function RulesModal({ isOpen, onClose }: RulesModalProps) {
               <li><strong>3 players:</strong> 6 cards in hand, first to complete 1 sequence wins.</li>
             </ul>
             <p className="mt-2 text-sm text-gray-600">
-              The 4 corners are free spaces — everyone treats them as already filled. Two of
+              The 4 corners are free spaces — everyone treats them as already filled. That means
+              a line of 5 running through a corner only needs 4 chips you actually place. Two of
               your sequences may share at most 1 board cell; sharing more doesn&apos;t count as a
               second sequence.
             </p>
@@ -49,10 +50,11 @@ export default function RulesModal({ isOpen, onClose }: RulesModalProps) {
           <section>
             <h3 className="font-semibold text-lg mb-1 text-gray-900">🃏 Wildcards</h3>
             <p>
-              Every theme&apos;s 104-card deck includes 8 wildcards: 4 that place a chip on{' '}
-              <em>any</em> open cell, and 4 that remove an opponent&apos;s chip from the board
-              (never your own, and never a chip that&apos;s already part of a completed
-              sequence).
+              Every deck includes 8 wildcards: 4 <strong>Place</strong> cards let you put a chip
+              on <em>any</em> open cell. 4 <strong>Remove</strong> cards let you take an
+              opponent&apos;s chip off a cell they&apos;ve played on, clearing it back to empty
+              (you can&apos;t target your own chip, or one that&apos;s already part of a
+              completed sequence).
             </p>
           </section>
 
@@ -62,19 +64,20 @@ export default function RulesModal({ isOpen, onClose }: RulesModalProps) {
               If a card in your hand can never be legally played — both of its matching board
               spots are already occupied — it&apos;s dead. Discard it on your turn for a fresh
               card; this doesn&apos;t use up your turn, so you can still play normally
-              afterward.
+              afterward. Wildcards are never dead — a Remove card just waits in your hand until
+              there&apos;s a chip worth taking.
             </p>
           </section>
 
           <section>
             <h3 className="font-semibold text-lg mb-2 text-gray-900">🎨 Themes</h3>
             <div className="space-y-2 text-sm">
-              <p><strong>Emoji Match</strong> — play the identical emoji shown on your card.</p>
-              <p><strong>Space</strong> — real planets, moons, stars, and sci-fi vocabulary, matched identically.</p>
+              <p><strong>Emoji</strong> — everyday emoji icons.</p>
+              <p><strong>Space</strong> — planets, moons, and other space imagery.</p>
               <p>
-                <strong>Noun/Adjective</strong> — each adjective card names its 2 matching
-                board nouns right on the card (e.g. &ldquo;Fluffy — Cloud · Sheep&rdquo;), giving you
-                4 valid cells to choose from (2 nouns × 2 board copies each).
+                <strong>Adjectives</strong> — nouns fill the board, adjectives fill your hand;
+                each adjective card lists its 2 matching nouns right on the card (e.g.
+                &ldquo;Fluffy — Cloud · Sheep&rdquo;).
               </p>
             </div>
           </section>

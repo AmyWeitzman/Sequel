@@ -8,7 +8,7 @@ function displayFor(item: { name: string; emoji?: string }) {
 export const spaceTheme: ThemeDefinition = {
   id: 'space',
   name: 'Space',
-  description: 'Planets, moons, stars, and sci-fi staples — 48 real space words, matched 1:1.',
+  description: 'An outer-space theme with planets, moons, and more.',
   boardItems: SPACE_ITEMS.map((item) => ({
     id: item.id,
     display: displayFor(item),

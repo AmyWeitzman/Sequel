@@ -8,9 +8,8 @@ const ADJ_TO_NOUNS: Record<string, string[]> = Object.fromEntries(
 
 export const nounAdjectiveTheme: ThemeDefinition = {
   id: 'noun-adjective',
-  name: 'Noun/Adjective',
-  description:
-    '24 adjectives, each matching exactly 2 board nouns (printed right on the card) — 4 valid cells per draw.',
+  name: 'Adjectives',
+  description: 'Match descriptive words to the nouns they fit.',
   boardItems: NOUNS.map((noun) => ({
     id: noun.id,
     display: { primary: noun.name },

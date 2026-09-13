@@ -15,8 +15,8 @@ const baloo = Baloo_2({
 });
 
 export const metadata: Metadata = {
-  title: "Sequel — a themeable Sequence",
-  description: "A configurable, themeable digital version of Sequence — Emoji, Space, and Noun/Adjective themes.",
+  title: "Sequel",
+  description: "A digital version of Sequence with Emoji, Space, and Adjectives themes.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

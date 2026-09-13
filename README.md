@@ -1,8 +1,8 @@
 # Sequel 🔮
 
-A configurable, themeable digital version of the board game **Sequence**. The classic 10×10
-board layout is preserved, but the theme is picked at game creation and item placement is
-reshuffled every game. Real-time online multiplayer for 2-3 players — join by room code.
+A digital version of the board game **Sequence**. The classic 10×10 board layout is preserved,
+but item placement is reshuffled every game and you pick from a few different themes at game
+creation. Real-time online multiplayer for 2-3 players — join by room code.
 
 ## How to play
 
@@ -23,9 +23,9 @@ Full rules are also available in-app via the "How to Play" / "Rules" buttons.
 
 | Theme | How matching works |
 |---|---|
-| **Emojis** | Play the identical emoji shown on your card. |
-| **Space** | 48 planets, moons, stars, and sci-fi/space terms. |
-| **Noun/Adjective** | 24 adjective cards, each printing its own 2 matching board nouns right on the card (e.g. "Fluffy — Cloud · Sheep"), giving 4 valid board cells per draw. |
+| **Emoji** | Everyday emoji icons. Play the identical emoji shown on your card. |
+| **Space** | Planets, moons, and other space imagery, matched the same way. |
+| **Adjectives** | Nouns fill the board, adjectives fill your hand. Each adjective card lists its 2 matching nouns right on the card (e.g. "Fluffy — Cloud · Sheep"). |
 
 ## Tech stack
 

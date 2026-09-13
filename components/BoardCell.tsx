@@ -16,15 +16,20 @@ interface BoardCellProps {
   onClick: () => void;
 }
 
+// Emoji-only text (no letters) reads fine large; word-based themes need a
+// smaller size so words like "Jackhammer" fit the cell.
+const isWordy = (text: string) => /[a-zA-Z]/.test(text);
+
 export default function BoardCell({ cell, display, clickable, highlighted, onClick }: BoardCellProps) {
   const isSequenced = cell.sequenceIds.length > 0;
+  const textSizeClass = isWordy(display) ? 'text-[11px]' : 'text-xl';
 
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={!clickable}
-      className={`relative h-14 w-14 shrink-0 rounded-md border flex items-center justify-center text-center overflow-hidden transition-all ${
+      className={`relative h-16 w-16 shrink-0 rounded-md border flex items-center justify-center text-center overflow-hidden transition-all ${
         cell.isFreeCorner
           ? 'bg-violet-100 border-violet-300'
           : 'bg-white border-gray-200'
@@ -34,9 +39,9 @@ export default function BoardCell({ cell, display, clickable, highlighted, onCli
       title={display}
     >
       {cell.isFreeCorner ? (
-        <span className="text-lg">⭐</span>
+        <span className="text-2xl">⭐</span>
       ) : (
-        <span className="text-[10px] leading-tight px-0.5 break-words line-clamp-3 text-gray-700">
+        <span className={`${textSizeClass} leading-tight px-0.5 break-words line-clamp-3 font-medium text-gray-700`}>
           {display}
         </span>
       )}
