@@ -39,8 +39,8 @@ export default function RulesModal({ isOpen, onClose }: RulesModalProps) {
               <li><strong>2 players:</strong> 7 cards in hand, first to complete 2 sequences wins.</li>
               <li><strong>3 players:</strong> 6 cards in hand, first to complete 1 sequence wins.</li>
             </ul>
-            <p className="mt-2 text-sm text-gray-600">
-              The 4 corners are free spaces — everyone treats them as already filled. That means
+            <p className="mt-2">
+              The 4 corners are free spaces. That means
               a line of 5 running through a corner only needs 4 chips you actually place. Two of
               your sequences may share at most 1 board cell; sharing more doesn&apos;t count as a
               second sequence.
@@ -50,7 +50,7 @@ export default function RulesModal({ isOpen, onClose }: RulesModalProps) {
           <section>
             <h3 className="font-semibold text-lg mb-1 text-gray-900">🃏 Wildcards</h3>
             <p>
-              Every deck includes 8 wildcards: 4 <strong>Place</strong> cards let you put a chip
+              Every deck includes 8 wildcards: 4 <strong>Add</strong> cards let you put a chip
               on <em>any</em> open cell. 4 <strong>Remove</strong> cards let you take an
               opponent&apos;s chip off a cell they&apos;ve played on, clearing it back to empty
               (you can&apos;t target your own chip, or one that&apos;s already part of a

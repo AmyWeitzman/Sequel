@@ -107,7 +107,7 @@ export default function Home() {
           <div className="text-6xl mb-2">🔗</div>
           <h1 className="text-5xl font-bold text-gray-900 mb-4 font-display tracking-tight">Sequel</h1>
           <p className="text-xl text-gray-600 mb-4">
-            Build sequences of 5 and race your friends online.
+            Race against your friends to match the cards to build sequences of 5.
           </p>
           <button
             onClick={() => setShowRules(true)}
