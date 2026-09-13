@@ -1,14 +1,9 @@
 'use client';
 
 import type { CSSProperties } from 'react';
-import type { BoardCell as BoardCellData, ChipColor } from '@/types/game';
+import type { BoardCell as BoardCellData } from '@/types/game';
 import type { ThemeId } from '@/types/game';
-
-const CHIP_CLASSES: Record<ChipColor, string> = {
-  red: 'bg-red-500 border-red-700',
-  blue: 'bg-blue-500 border-blue-700',
-  green: 'bg-green-500 border-green-700',
-};
+import { getChipPalette } from '@/lib/themes/chipColors';
 
 interface BoardCellProps {
   cell: BoardCellData;
@@ -34,7 +29,7 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
   let bgClass = 'bg-white border-gray-200';
   let textClass = 'text-gray-700';
   if (cell.isFreeCorner) {
-    bgClass = 'bg-violet-100 border-violet-300';
+    bgClass = 'bg-amber-200 border-amber-400';
   } else if (isSpace) {
     bgClass = 'bg-aurora border-indigo-950';
     textClass = 'text-white';
@@ -48,6 +43,12 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
     };
   }
 
+  // Indigo reads fine as a "this is a legal move" ring on white/pastel cells,
+  // but disappears against the Space theme's dark blue/purple aurora - use a
+  // bright lime there instead (kept distinct from the gold sequence ring).
+  const highlightRingClass = isSpace ? 'ring-lime-300' : 'ring-indigo-400';
+  const chipPalette = cell.chip ? getChipPalette(cell.chip, themeId) : null;
+
   return (
     <button
       type="button"
@@ -55,14 +56,14 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
       disabled={!clickable}
       style={style}
       className={`relative h-20 w-20 shrink-0 rounded-md border flex items-center justify-center text-center overflow-hidden transition-all ${bgClass} ${
-        highlighted ? 'ring-4 ring-indigo-400 z-10' : ''
+        highlighted ? `ring-4 ${highlightRingClass} z-10` : ''
       } ${isSequenced ? 'ring-2 ring-yellow-400' : ''} ${
         clickable ? `cursor-pointer${hasHue || isSpace ? '' : ' hover:border-indigo-400'}` : 'cursor-default'
       }`}
       title={display}
     >
       {cell.isFreeCorner ? (
-        <span className="text-[11px] font-bold tracking-wider text-violet-500">FREE</span>
+        <span className="text-xs font-extrabold tracking-wider text-amber-800">FREE</span>
       ) : (
         <span
           className={`${textSizeClass} ${textClass} leading-tight px-1 break-words line-clamp-3 font-semibold`}
@@ -71,10 +72,8 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
           {display}
         </span>
       )}
-      {cell.chip && (
-        <span
-          className={`absolute inset-1 rounded-full border-2 animate-chip-pop ${CHIP_CLASSES[cell.chip]} opacity-90`}
-        />
+      {chipPalette && (
+        <span className={`absolute inset-1 rounded-full border-2 animate-chip-pop ${chipPalette.bg} ${chipPalette.border} opacity-90`} />
       )}
     </button>
   );

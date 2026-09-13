@@ -1,21 +1,17 @@
 'use client';
 
-import type { Player, ChipColor } from '@/types/game';
-
-const CHIP_DOT: Record<ChipColor, string> = {
-  red: 'bg-red-500',
-  blue: 'bg-blue-500',
-  green: 'bg-green-500',
-};
+import type { Player, ThemeId } from '@/types/game';
+import { getChipPalette } from '@/lib/themes/chipColors';
 
 interface TurnIndicatorProps {
   players: Player[];
   currentPlayerId: string;
   viewerPlayerId: string;
+  themeId: ThemeId;
   layout?: 'row' | 'column';
 }
 
-export default function TurnIndicator({ players, currentPlayerId, viewerPlayerId, layout = 'row' }: TurnIndicatorProps) {
+export default function TurnIndicator({ players, currentPlayerId, viewerPlayerId, themeId, layout = 'row' }: TurnIndicatorProps) {
   const isYourTurn = currentPlayerId === viewerPlayerId;
   const isColumn = layout === 'column';
 
@@ -36,7 +32,7 @@ export default function TurnIndicator({ players, currentPlayerId, viewerPlayerId
           } ${!player.isActive ? 'opacity-40' : ''}`}
         >
           <span className="flex items-center gap-2 min-w-0">
-            <span className={`w-3 h-3 rounded-full shrink-0 ${CHIP_DOT[player.color]}`} />
+            <span className={`w-3 h-3 rounded-full shrink-0 ${getChipPalette(player.color, themeId).bg}`} />
             <span className="text-sm font-medium text-gray-800 truncate">
               {player.name}
               {player.id === viewerPlayerId ? ' (you)' : ''}

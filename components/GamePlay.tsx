@@ -89,6 +89,7 @@ export default function GamePlay({ game, currentPlayerId, onPlayCard, onDiscard,
             players={game.players}
             currentPlayerId={game.currentPlayerId}
             viewerPlayerId={currentPlayerId}
+            themeId={theme.id}
             layout="column"
           />
         </aside>

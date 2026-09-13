@@ -236,7 +236,7 @@ export default function GamePage() {
   }
 
   return (
-    <div className="min-h-screen flex-1 bg-gradient-to-br from-indigo-100 via-violet-50 to-indigo-100 py-8">
+    <div className="min-h-screen flex-1 bg-gradient-to-br from-indigo-100 via-violet-50 to-indigo-100 py-3">
       <GamePlay
         game={game}
         currentPlayerId={currentPlayerId}

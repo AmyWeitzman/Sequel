@@ -36,10 +36,7 @@ export default function ThemePicker({ value, onChange, disabled = false }: Theme
                 : 'border-gray-200 bg-white hover:border-indigo-200'
             } ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
           >
-            <div className="font-bold text-gray-900 mb-1 flex items-center gap-2">
-              {selected && <span className="text-indigo-600">✓</span>}
-              {theme.name}
-            </div>
+            <div className="font-bold text-gray-900 mb-1">{theme.name}</div>
             <p className="text-xs text-gray-600 mb-2">{theme.description}</p>
             <p className="text-lg leading-none truncate" title={previewFor(theme.id)}>
               {previewFor(theme.id)}

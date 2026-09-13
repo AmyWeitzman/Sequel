@@ -7,14 +7,16 @@ import type { ThemeDefinition } from '@/lib/themes';
 export function getCardDisplay(
   card: HandCardData,
   theme: ThemeDefinition
-): { primary: string; label?: string; hue?: number } {
+): { primary: string; label?: string; hue?: number; emoji?: string } {
   if (card.kind === 'normal') {
     const def = theme.handCards.find((h) => h.id === card.itemId);
     return { primary: def?.display.primary ?? card.itemId, label: def?.display.label, hue: def?.hue };
   }
   const wildcard = theme.wildcards.find((w) => w.kind === card.kind);
-  const primary = wildcard ? (wildcard.art.emoji ? `${wildcard.art.emoji} ${wildcard.label}` : wildcard.label) : card.kind;
-  return { primary };
+  // Render a wildcard's emoji and its name as two separate lines (emoji
+  // large, name below) rather than one small combined string - a tiny emoji
+  // squeezed in front of "Supernova Strike" was easy to miss entirely.
+  return { primary: wildcard?.label ?? card.kind, emoji: wildcard?.art.emoji };
 }
 
 interface HandCardProps {
@@ -32,7 +34,7 @@ interface HandCardProps {
 const isWordy = (text: string) => /[a-zA-Z]/.test(text);
 
 export default function HandCard({ card, theme, selected, dead, disabled, onSelect, onDiscard }: HandCardProps) {
-  const { primary, label, hue } = getCardDisplay(card, theme);
+  const { primary, label, hue, emoji } = getCardDisplay(card, theme);
   const isWild = card.kind !== 'normal';
   const isSpace = theme.id === 'space';
   const primarySizeClass = isWordy(primary) ? 'text-sm font-semibold' : 'text-3xl';
@@ -68,6 +70,11 @@ export default function HandCard({ card, theme, selected, dead, disabled, onSele
           selected ? 'shadow-lg -translate-y-2 ring-2 ring-indigo-500' : ''
         } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${dead ? 'ring-2 ring-red-300' : ''}`}
       >
+        {emoji && (
+          <span className="text-3xl leading-none mb-1" style={isSpace ? { textShadow: '0 1px 3px rgba(0,0,0,0.8)' } : undefined}>
+            {emoji}
+          </span>
+        )}
         <span
           className={`${primarySizeClass} leading-tight mb-1 break-words line-clamp-2`}
           style={isSpace ? { textShadow: '0 1px 3px rgba(0,0,0,0.8)' } : undefined}

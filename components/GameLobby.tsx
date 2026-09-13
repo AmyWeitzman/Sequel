@@ -1,17 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import type { GameDoc, ChipColor, ThemeId } from '@/types/game';
+import type { GameDoc, ThemeId } from '@/types/game';
 import { getTheme } from '@/lib/themes';
+import { getChipPalette } from '@/lib/themes/chipColors';
 import { useToast } from '@/components/ToastContainer';
 import ThemePicker from '@/components/ThemePicker';
 import RulesModal from '@/components/RulesModal';
-
-const CHIP_DOT: Record<ChipColor, string> = {
-  red: 'bg-red-500',
-  blue: 'bg-blue-500',
-  green: 'bg-green-500',
-};
 
 interface GameLobbyProps {
   game: GameDoc;
@@ -77,7 +72,7 @@ export default function GameLobby({ game, currentPlayerId, onStartGame, onChange
           {activePlayers.map((player) => (
             <div key={player.id} className="flex items-center justify-between p-3 bg-indigo-50/60 rounded-xl">
               <div className="flex items-center gap-3">
-                <span className={`w-4 h-4 rounded-full ${CHIP_DOT[player.color]}`} />
+                <span className={`w-4 h-4 rounded-full ${getChipPalette(player.color, game.theme).bg}`} />
                 <span className="font-medium text-gray-800">{player.name}</span>
                 {player.id === game.hostId && (
                   <span className="px-2 py-1 text-xs bg-amber-100 text-amber-800 rounded-full font-semibold">👑 Host</span>
