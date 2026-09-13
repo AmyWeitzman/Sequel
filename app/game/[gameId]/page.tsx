@@ -51,8 +51,10 @@ export default function GamePage() {
   );
 
   useEffect(() => {
-    const storedPlayerId = localStorage.getItem(`playerId_${gameId}`) ?? localStorage.getItem('playerId');
-    // Reading localStorage is a sync with an external system (not derived
+    // sessionStorage, not localStorage - see app/page.tsx for why identity
+    // must be per-tab rather than shared across the whole browser.
+    const storedPlayerId = sessionStorage.getItem(`playerId_${gameId}`) ?? sessionStorage.getItem('playerId');
+    // Reading storage is a sync with an external system (not derived
     // from props/state), which is exactly what effects are for.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentPlayerId(storedPlayerId);

@@ -89,15 +89,13 @@ h1, h2, h3 {
   animation: chip-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Space theme: a tiled starfield for board cells and hand cards, built from
-   layered radial gradients (no image assets). Different tile sizes/offsets
-   per layer keep the dots from lining up into a visible grid. */
-.bg-starfield {
-  background-color: #10143a;
+/* Space theme: a moody blue/green/purple aurora wash for board cells and
+   hand cards (no image assets). The base stays very dark so white text
+   keeps solid contrast no matter where a color band falls. */
+.bg-aurora {
+  background-color: #0a0c22;
   background-image:
-    radial-gradient(circle, rgba(255, 255, 255, 0.95) 1px, transparent 1.5px),
-    radial-gradient(circle, rgba(199, 210, 254, 0.8) 1px, transparent 1.5px),
-    radial-gradient(circle, rgba(255, 255, 255, 0.55) 1px, transparent 1.5px);
-  background-size: 18px 18px, 26px 26px, 34px 34px;
-  background-position: 0 0, 9px 14px, 16px 4px;
+    radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.55), transparent 55%),
+    radial-gradient(circle at 85% 25%, rgba(168, 85, 247, 0.5), transparent 55%),
+    radial-gradient(circle at 50% 95%, rgba(45, 212, 191, 0.45), transparent 60%);
 }

@@ -41,8 +41,8 @@ export default function HandCard({ card, theme, selected, dead, disabled, onSele
   let variantClass: string;
   let labelClass = 'text-gray-500';
   if (isSpace) {
-    variantClass = isWild ? 'bg-starfield text-white border-fuchsia-300' : 'bg-starfield text-white border-indigo-950';
-    labelClass = 'text-indigo-200';
+    variantClass = isWild ? 'bg-aurora text-white border-fuchsia-300' : 'bg-aurora text-white border-indigo-950';
+    labelClass = 'text-indigo-100';
   } else if (hue !== undefined) {
     variantClass = '';
     style = {
@@ -68,8 +68,20 @@ export default function HandCard({ card, theme, selected, dead, disabled, onSele
           selected ? 'shadow-lg -translate-y-2 ring-2 ring-indigo-500' : ''
         } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${dead ? 'ring-2 ring-red-300' : ''}`}
       >
-        <span className={`${primarySizeClass} leading-tight mb-1 break-words line-clamp-2`}>{primary}</span>
-        {label && <span className={`text-[11px] leading-tight break-words line-clamp-2 ${labelClass}`} style={hue !== undefined ? { color: `hsl(${hue} 40% 35%)` } : undefined}>{label}</span>}
+        <span
+          className={`${primarySizeClass} leading-tight mb-1 break-words line-clamp-2`}
+          style={isSpace ? { textShadow: '0 1px 3px rgba(0,0,0,0.8)' } : undefined}
+        >
+          {primary}
+        </span>
+        {label && (
+          <span
+            className={`text-[11px] leading-tight break-words line-clamp-2 ${labelClass}`}
+            style={hue !== undefined ? { color: `hsl(${hue} 40% 35%)` } : isSpace ? { textShadow: '0 1px 3px rgba(0,0,0,0.8)' } : undefined}
+          >
+            {label}
+          </span>
+        )}
       </button>
       {dead && !disabled && (
         <button

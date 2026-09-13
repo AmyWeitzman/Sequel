@@ -36,7 +36,7 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
   if (cell.isFreeCorner) {
     bgClass = 'bg-violet-100 border-violet-300';
   } else if (isSpace) {
-    bgClass = 'bg-starfield border-indigo-950';
+    bgClass = 'bg-aurora border-indigo-950';
     textClass = 'text-white';
   } else if (hasHue) {
     bgClass = '';
@@ -62,9 +62,12 @@ export default function BoardCell({ cell, display, hue, themeId, clickable, high
       title={display}
     >
       {cell.isFreeCorner ? (
-        <span className="text-3xl">⭐</span>
+        <span className="text-[11px] font-bold tracking-wider text-violet-500">FREE</span>
       ) : (
-        <span className={`${textSizeClass} ${textClass} leading-tight px-1 break-words line-clamp-3 font-semibold`}>
+        <span
+          className={`${textSizeClass} ${textClass} leading-tight px-1 break-words line-clamp-3 font-semibold`}
+          style={isSpace ? { textShadow: '0 1px 3px rgba(0,0,0,0.8)' } : undefined}
+        >
           {display}
         </span>
       )}

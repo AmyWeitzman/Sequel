@@ -22,12 +22,16 @@ export default function Home() {
   const [joining, setJoining] = useState(false);
 
   useEffect(() => {
-    let storedPlayerId = localStorage.getItem('playerId');
+    // sessionStorage, not localStorage: identity must be per-tab. localStorage
+    // is shared across every tab of the same browser, so two tabs opened to
+    // test 2 players would silently collide on the same playerId - the
+    // second "join" would just be treated as the first player rejoining.
+    let storedPlayerId = sessionStorage.getItem('playerId');
     if (!storedPlayerId) {
       storedPlayerId = generatePlayerId();
-      localStorage.setItem('playerId', storedPlayerId);
+      sessionStorage.setItem('playerId', storedPlayerId);
     }
-    // Reading/seeding localStorage is a sync with an external system (not
+    // Reading/seeding storage is a sync with an external system (not
     // derived from props/state), which is exactly what effects are for.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setPlayerId(storedPlayerId);
@@ -56,7 +60,7 @@ export default function Home() {
       }
 
       const data = await response.json();
-      localStorage.setItem(`playerId_${data.gameCode}`, playerId);
+      sessionStorage.setItem(`playerId_${data.gameCode}`, playerId);
       router.push(`/game/${data.gameCode}`);
     } catch (error) {
       console.error('Error creating game:', error);
@@ -91,7 +95,7 @@ export default function Home() {
         return;
       }
 
-      localStorage.setItem(`playerId_${code}`, playerId);
+      sessionStorage.setItem(`playerId_${code}`, playerId);
       router.push(`/game/${code}`);
     } catch (error) {
       console.error('Error joining game:', error);
