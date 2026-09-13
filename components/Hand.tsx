@@ -18,7 +18,7 @@ interface HandProps {
 
 export default function Hand({ hand, board, theme, armedCardId, interactive, onArm, onDiscard }: HandProps) {
   return (
-    <div className="flex flex-wrap gap-2 justify-center">
+    <div className="flex flex-wrap gap-2 justify-center lg:grid lg:grid-cols-2 lg:justify-items-center">
       {hand.map((card) => {
         const dead = isCardDead(card, board, theme);
         return (

@@ -61,9 +61,9 @@ export default function GamePlay({ game, currentPlayerId, onPlayCard, onDiscard,
   const winner = game.winnerId ? game.players.find((p) => p.id === game.winnerId) : undefined;
 
   return (
-    <div className="max-w-[1600px] mx-auto p-4">
+    <div className="max-w-[1800px] mx-auto p-4">
       <div className="flex flex-col lg:flex-row gap-4 lg:items-start">
-        <aside className="lg:w-60 shrink-0 flex flex-col gap-3">
+        <aside className="lg:w-56 shrink-0 flex flex-col gap-3">
           <div className="flex items-center justify-between lg:flex-col lg:items-start gap-2">
             <div>
               <h1 className="text-xl font-bold text-gray-900 font-display leading-tight">🔗 Sequel</h1>
@@ -93,28 +93,28 @@ export default function GamePlay({ game, currentPlayerId, onPlayCard, onDiscard,
           />
         </aside>
 
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 flex justify-center">
           <Board board={game.board} theme={theme} legalCells={legalCells} onCellClick={handleCellClick} />
+        </div>
 
-          <div className="mt-6">
-            <h2 className="text-sm font-semibold text-gray-600 mb-2 text-center">
-              {myTurn ? 'Tap a card, then tap a highlighted cell' : 'Your hand'}
-            </h2>
-            {me && (
-              <Hand
-                hand={me.hand}
-                board={game.board}
-                theme={theme}
-                armedCardId={armedCardId}
-                interactive={myTurn}
-                onArm={handleArm}
-                onDiscard={(cardId) => {
-                  setArmedCardId(null);
-                  void onDiscard(cardId);
-                }}
-              />
-            )}
-          </div>
+        <div className="lg:w-64 shrink-0">
+          <h2 className="text-sm font-semibold text-gray-600 mb-2 text-center lg:text-left">
+            {myTurn ? 'Tap a card, then tap a highlighted cell' : 'Your hand'}
+          </h2>
+          {me && (
+            <Hand
+              hand={me.hand}
+              board={game.board}
+              theme={theme}
+              armedCardId={armedCardId}
+              interactive={myTurn}
+              onArm={handleArm}
+              onDiscard={(cardId) => {
+                setArmedCardId(null);
+                void onDiscard(cardId);
+              }}
+            />
+          )}
         </div>
       </div>
 
