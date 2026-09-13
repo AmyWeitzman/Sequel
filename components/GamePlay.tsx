@@ -61,47 +61,61 @@ export default function GamePlay({ game, currentPlayerId, onPlayCard, onDiscard,
   const winner = game.winnerId ? game.players.find((p) => p.id === game.winnerId) : undefined;
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold text-gray-900 font-display">🔗 Sequel — {theme.name}</h1>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setShowRules(true)}
-            className="px-3 py-1.5 text-sm bg-white border border-indigo-200 rounded-full text-gray-700 hover:bg-indigo-50"
-          >
-            📖 Rules
-          </button>
-          <button
-            onClick={onLeave}
-            className="px-3 py-1.5 text-sm bg-white border border-red-200 rounded-full text-red-600 hover:bg-red-50"
-          >
-            Leave
-          </button>
-        </div>
-      </div>
+    <div className="max-w-[1600px] mx-auto p-4">
+      <div className="flex flex-col lg:flex-row gap-4 lg:items-start">
+        <aside className="lg:w-60 shrink-0 flex flex-col gap-3">
+          <div className="flex items-center justify-between lg:flex-col lg:items-start gap-2">
+            <div>
+              <h1 className="text-xl font-bold text-gray-900 font-display leading-tight">🔗 Sequel</h1>
+              <p className="text-xs text-gray-500">{theme.name} theme</p>
+            </div>
+            <div className="flex gap-2 lg:w-full">
+              <button
+                onClick={() => setShowRules(true)}
+                className="px-3 py-1.5 text-sm bg-white border border-indigo-200 rounded-full text-gray-700 hover:bg-indigo-50"
+              >
+                📖 Rules
+              </button>
+              <button
+                onClick={onLeave}
+                className="px-3 py-1.5 text-sm bg-white border border-red-200 rounded-full text-red-600 hover:bg-red-50"
+              >
+                Leave
+              </button>
+            </div>
+          </div>
 
-      <TurnIndicator players={game.players} currentPlayerId={game.currentPlayerId} viewerPlayerId={currentPlayerId} />
-
-      <Board board={game.board} theme={theme} legalCells={legalCells} onCellClick={handleCellClick} />
-
-      <div className="mt-6">
-        <h2 className="text-sm font-semibold text-gray-600 mb-2 text-center">
-          {myTurn ? 'Tap a card, then tap a highlighted cell' : 'Your hand'}
-        </h2>
-        {me && (
-          <Hand
-            hand={me.hand}
-            board={game.board}
-            theme={theme}
-            armedCardId={armedCardId}
-            interactive={myTurn}
-            onArm={handleArm}
-            onDiscard={(cardId) => {
-              setArmedCardId(null);
-              void onDiscard(cardId);
-            }}
+          <TurnIndicator
+            players={game.players}
+            currentPlayerId={game.currentPlayerId}
+            viewerPlayerId={currentPlayerId}
+            layout="column"
           />
-        )}
+        </aside>
+
+        <div className="flex-1 min-w-0">
+          <Board board={game.board} theme={theme} legalCells={legalCells} onCellClick={handleCellClick} />
+
+          <div className="mt-6">
+            <h2 className="text-sm font-semibold text-gray-600 mb-2 text-center">
+              {myTurn ? 'Tap a card, then tap a highlighted cell' : 'Your hand'}
+            </h2>
+            {me && (
+              <Hand
+                hand={me.hand}
+                board={game.board}
+                theme={theme}
+                armedCardId={armedCardId}
+                interactive={myTurn}
+                onArm={handleArm}
+                onDiscard={(cardId) => {
+                  setArmedCardId(null);
+                  void onDiscard(cardId);
+                }}
+              />
+            )}
+          </div>
+        </div>
       </div>
 
       {winner && <WinBanner winner={winner} viewerPlayerId={currentPlayerId} />}

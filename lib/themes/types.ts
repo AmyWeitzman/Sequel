@@ -3,6 +3,7 @@ import type { ThemeId } from '@/types/game';
 export interface BoardItem {
   id: string;
   display: { primary: string; label?: string };
+  hue?: number; // Noun/Adjective only: 0-359, ties a noun's card color to its owning adjective
 }
 
 export interface HandCardDef {
@@ -10,6 +11,7 @@ export interface HandCardDef {
   display: { primary: string; label?: string }; // label = visible match-hint subtext (Noun/Adjective only)
   matchIds?: string[]; // Noun/Adjective only: the exact board item ids this card may be played on
   copies?: number; // deck copies of this card; default 2 (Noun/Adjective uses 4, see below)
+  hue?: number; // Noun/Adjective only: 0-359, this adjective's color
 }
 
 export interface WildcardDef {

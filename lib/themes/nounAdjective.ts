@@ -6,6 +6,20 @@ const ADJ_TO_NOUNS: Record<string, string[]> = Object.fromEntries(
   ADJECTIVES.map((adj) => [adj.id, adj.matchIds])
 );
 
+// Each adjective gets its own color (evenly spaced around the hue wheel);
+// its 2 exclusive nouns inherit that same hue, so a colored board cell tells
+// you at a glance which hand card it matches, without reading either card.
+const HUE_STEP = 360 / ADJECTIVES.length;
+const ADJ_HUE: Record<string, number> = Object.fromEntries(
+  ADJECTIVES.map((adj, i) => [adj.id, Math.round(i * HUE_STEP)])
+);
+const NOUN_HUE: Record<string, number> = {};
+for (const adj of ADJECTIVES) {
+  for (const nounId of adj.matchIds) {
+    NOUN_HUE[nounId] = ADJ_HUE[adj.id];
+  }
+}
+
 export const nounAdjectiveTheme: ThemeDefinition = {
   id: 'noun-adjective',
   name: 'Adjectives',
@@ -13,6 +27,7 @@ export const nounAdjectiveTheme: ThemeDefinition = {
   boardItems: NOUNS.map((noun) => ({
     id: noun.id,
     display: { primary: noun.name },
+    hue: NOUN_HUE[noun.id],
   })),
   handCards: ADJECTIVES.map((adj) => {
     const nounNames = adj.matchIds.map(
@@ -23,6 +38,7 @@ export const nounAdjectiveTheme: ThemeDefinition = {
       display: { primary: adj.name, label: nounNames.join(' · ') },
       matchIds: adj.matchIds,
       copies: 4,
+      hue: ADJ_HUE[adj.id],
     };
   }),
   wildcards: [
