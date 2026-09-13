@@ -4,7 +4,7 @@ import { EMOJI_ITEMS } from './data/emojiItems';
 export const emojiTheme: ThemeDefinition = {
   id: 'emoji',
   name: 'Emoji',
-  description: 'A colorful set of everyday emoji.',
+  description: 'A set of common emojis.',
   boardItems: EMOJI_ITEMS.map((emoji) => ({
     id: emoji,
     display: { primary: emoji },

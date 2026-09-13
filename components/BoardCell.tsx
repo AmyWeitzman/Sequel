@@ -22,14 +22,14 @@ const isWordy = (text: string) => /[a-zA-Z]/.test(text);
 
 export default function BoardCell({ cell, display, clickable, highlighted, onClick }: BoardCellProps) {
   const isSequenced = cell.sequenceIds.length > 0;
-  const textSizeClass = isWordy(display) ? 'text-[11px]' : 'text-xl';
+  const textSizeClass = isWordy(display) ? 'text-xs' : 'text-3xl';
 
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={!clickable}
-      className={`relative h-16 w-16 shrink-0 rounded-md border flex items-center justify-center text-center overflow-hidden transition-all ${
+      className={`relative h-20 w-20 shrink-0 rounded-md border flex items-center justify-center text-center overflow-hidden transition-all ${
         cell.isFreeCorner
           ? 'bg-violet-100 border-violet-300'
           : 'bg-white border-gray-200'
@@ -39,9 +39,9 @@ export default function BoardCell({ cell, display, clickable, highlighted, onCli
       title={display}
     >
       {cell.isFreeCorner ? (
-        <span className="text-2xl">⭐</span>
+        <span className="text-3xl">⭐</span>
       ) : (
-        <span className={`${textSizeClass} leading-tight px-0.5 break-words line-clamp-3 font-medium text-gray-700`}>
+        <span className={`${textSizeClass} leading-tight px-1 break-words line-clamp-3 font-semibold text-gray-700`}>
           {display}
         </span>
       )}

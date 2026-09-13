@@ -71,11 +71,11 @@ export default function RulesModal({ isOpen, onClose }: RulesModalProps) {
 
           <section>
             <h3 className="font-semibold text-lg mb-2 text-gray-900">🎨 Themes</h3>
-            <div className="space-y-2 text-sm">
-              <p><strong>Emoji</strong> — everyday emoji icons.</p>
-              <p><strong>Space</strong> — planets, moons, and other space imagery.</p>
+            <div className="space-y-2">
+              <p><strong>Emoji</strong> — everyday emoji icons</p>
+              <p><strong>Space</strong> — planets, moons, and other space imagery</p>
               <p>
-                <strong>Adjectives</strong> — nouns fill the board, adjectives fill your hand;
+                <strong>Adjectives</strong> — the cells on the board contain nouns, the cards in your hand contain adjectives;
                 each adjective card lists its 2 matching nouns right on the card (e.g.
                 &ldquo;Fluffy — Cloud · Sheep&rdquo;).
               </p>

@@ -161,7 +161,7 @@ export default function GamePage() {
     return (
       <div className="min-h-screen flex-1 flex items-center justify-center bg-gradient-to-br from-indigo-100 via-violet-50 to-indigo-100">
         <div className="text-center">
-          <div className="text-5xl mb-3 animate-bounce">🔮</div>
+          <div className="text-5xl mb-3 animate-bounce">🔗</div>
           <div className="text-2xl font-bold mb-2 text-gray-900">Loading game...</div>
           <div className="text-gray-600">Room Code: {gameId}</div>
         </div>

@@ -1,21 +1,17 @@
 import type { ThemeDefinition } from './types';
 import { SPACE_ITEMS } from './data/spaceItems';
 
-function displayFor(item: { name: string; emoji?: string }) {
-  return { primary: item.emoji ? `${item.emoji} ${item.name}` : item.name };
-}
-
 export const spaceTheme: ThemeDefinition = {
   id: 'space',
   name: 'Space',
   description: 'An outer-space theme with planets, moons, and more.',
   boardItems: SPACE_ITEMS.map((item) => ({
     id: item.id,
-    display: displayFor(item),
+    display: { primary: item.name },
   })),
   handCards: SPACE_ITEMS.map((item) => ({
     id: item.id,
-    display: displayFor(item),
+    display: { primary: item.name },
   })),
   wildcards: [
     { kind: 'wild-place', count: 4, label: 'Wormhole', art: { emoji: '🌀' } },

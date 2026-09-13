@@ -1,4 +1,4 @@
-# Sequel 🔮
+# Sequel 🔗
 
 A digital version of the board game **Sequence**. The classic 10×10 board layout is preserved,
 but item placement is reshuffled every game and you pick from a few different themes at game

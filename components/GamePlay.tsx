@@ -63,7 +63,7 @@ export default function GamePlay({ game, currentPlayerId, onPlayCard, onDiscard,
   return (
     <div className="max-w-4xl mx-auto p-4">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold text-gray-900 font-display">🔮 Sequel — {theme.name}</h1>
+        <h1 className="text-2xl font-bold text-gray-900 font-display">🔗 Sequel — {theme.name}</h1>
         <div className="flex gap-2">
           <button
             onClick={() => setShowRules(true)}
