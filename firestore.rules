@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // All reads/writes go through the Next.js API routes, which use the
+    // Firebase Admin SDK and bypass these rules entirely (admin access is
+    // always trusted). Direct access from a browser or any other client
+    // using the (non-secret) public config is denied outright, since there
+    // is no auth system to scope per-user access to.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

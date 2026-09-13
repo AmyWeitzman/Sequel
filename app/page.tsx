@@ -1,69 +1,174 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import type { ThemeId } from '@/types/game';
+import { generatePlayerId } from '@/lib/engine/gameLogic';
+import ThemePicker from '@/components/ThemePicker';
+import NameInputModal from '@/components/NameInputModal';
+import RulesModal from '@/components/RulesModal';
+import { useToast } from '@/components/ToastContainer';
 
 export default function Home() {
+  const router = useRouter();
+  const { showToast } = useToast();
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [showRules, setShowRules] = useState(false);
+  const [theme, setTheme] = useState<ThemeId>('emoji');
+  const [joinCode, setJoinCode] = useState('');
+  const [joinName, setJoinName] = useState('');
+  const [playerId, setPlayerId] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [joining, setJoining] = useState(false);
+
+  useEffect(() => {
+    let storedPlayerId = localStorage.getItem('playerId');
+    if (!storedPlayerId) {
+      storedPlayerId = generatePlayerId();
+      localStorage.setItem('playerId', storedPlayerId);
+    }
+    // Reading/seeding localStorage is a sync with an external system (not
+    // derived from props/state), which is exactly what effects are for.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPlayerId(storedPlayerId);
+  }, []);
+
+  const handleCreateGame = () => {
+    if (!playerId) {
+      showToast('Please wait, initializing...', 'info');
+      return;
+    }
+    setShowNameModal(true);
+  };
+
+  const handleNameSubmit = async (playerName: string) => {
+    if (!playerId) return;
+    setCreating(true);
+    try {
+      const response = await fetch('/api/games', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hostId: playerId, hostName: playerName, theme }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create game');
+      }
+
+      const data = await response.json();
+      localStorage.setItem(`playerId_${data.gameCode}`, playerId);
+      router.push(`/game/${data.gameCode}`);
+    } catch (error) {
+      console.error('Error creating game:', error);
+      showToast('Failed to create game. Please try again.', 'error');
+      setCreating(false);
+    }
+  };
+
+  const handleJoinGame = async () => {
+    if (!joinCode.trim() || !joinName.trim()) {
+      showToast('Please enter both game code and your name', 'warning');
+      return;
+    }
+    if (!playerId) {
+      showToast('Please wait, initializing...', 'info');
+      return;
+    }
+
+    const code = joinCode.trim().toUpperCase();
+    setJoining(true);
+    try {
+      const response = await fetch(`/api/games/${code}/join`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ playerId, playerName: joinName.trim() }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        showToast(error.error || 'Failed to join game. Check the game code.', 'error');
+        setJoining(false);
+        return;
+      }
+
+      localStorage.setItem(`playerId_${code}`, playerId);
+      router.push(`/game/${code}`);
+    } catch (error) {
+      console.error('Error joining game:', error);
+      showToast('Failed to join game. Please try again.', 'error');
+      setJoining(false);
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen flex-1 bg-gradient-to-br from-indigo-100 via-violet-50 to-indigo-100 py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <div className="text-6xl mb-2">🔮</div>
+          <h1 className="text-5xl font-bold text-gray-900 mb-4 font-display tracking-tight">Sequel</h1>
+          <p className="text-xl text-gray-600 mb-4">
+            A themeable spin on Sequence — pick a theme, build sequences of 5, race your friends online.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => setShowRules(true)}
+            className="px-5 py-2 bg-white border border-indigo-200 rounded-full text-gray-700 hover:bg-indigo-50 hover:shadow-md transition-all font-medium"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            📖 How to Play
+          </button>
         </div>
-      </main>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-8 items-start">
+          <div className="bg-white rounded-3xl shadow-lg hover:shadow-xl transition-shadow p-6 border border-indigo-100">
+            <h2 className="text-2xl font-bold mb-4 text-gray-900">🎉 Start New Game</h2>
+            <p className="text-gray-600 mb-4">Pick a theme, then share the room code with friends.</p>
+            <ThemePicker value={theme} onChange={setTheme} disabled={creating} />
+            <button
+              onClick={handleCreateGame}
+              disabled={creating}
+              className="mt-6 w-full px-6 py-3 bg-gradient-to-br from-indigo-500 to-violet-500 text-white rounded-full hover:shadow-lg hover:scale-[1.02] transition-all font-bold text-lg disabled:opacity-60 disabled:hover:scale-100"
+            >
+              {creating ? 'Creating…' : 'Create Game'}
+            </button>
+          </div>
+
+          <div className="bg-white rounded-3xl shadow-lg hover:shadow-xl transition-shadow p-6 border border-indigo-100">
+            <h2 className="text-2xl font-bold mb-4 text-gray-900">🚪 Join Game</h2>
+            <p className="text-gray-600 mb-4">Enter the room code provided by the host.</p>
+            <div className="space-y-4">
+              <input
+                type="text"
+                value={joinCode}
+                onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+                placeholder="Room Code"
+                maxLength={6}
+                className="w-full px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 uppercase placeholder:normal-case placeholder:text-gray-500 text-gray-900 bg-white tracking-widest font-semibold"
+              />
+              <input
+                type="text"
+                value={joinName}
+                onChange={(e) => setJoinName(e.target.value)}
+                placeholder="Your Name"
+                className="w-full px-4 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 placeholder:text-gray-500 text-gray-900 bg-white"
+              />
+              <button
+                onClick={handleJoinGame}
+                disabled={!joinCode.trim() || !joinName.trim() || joining}
+                className="w-full px-6 py-3 bg-gradient-to-br from-emerald-400 to-teal-500 text-white rounded-full hover:shadow-lg hover:scale-[1.02] transition-all font-bold text-lg disabled:from-gray-300 disabled:to-gray-300 disabled:hover:scale-100 disabled:shadow-none disabled:cursor-not-allowed"
+              >
+                {joining ? 'Joining…' : 'Join Game'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <NameInputModal
+        isOpen={showNameModal}
+        onClose={() => setShowNameModal(false)}
+        onSubmit={handleNameSubmit}
+        title="Enter your name to create the game"
+      />
+      <RulesModal isOpen={showRules} onClose={() => setShowRules(false)} />
     </div>
   );
 }
